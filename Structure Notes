@@ -1,0 +1,26 @@
+Prog2 Notes
+
+
+Typedef char String [20];;    <<==== "String" is a new data type changes from "char"
+
+Typedef struct{                  <=== old type
+  Stirng lname, fname;
+}Name;                        <=== New type
+
+typedef struct{
+  int id;
+  Name name;                   <== consist of 2nd typedef variables (lname, fname);
+  char sex;
+}Student;
+
+
+ex. in main
+
+Student s;
+s.id = 1000;
+
+strcpy(s.name.lname, "yu");      <== Needs to strcpy if assigning to other variable with other structures
+strcpy(s.name.lname, "yu");      <== ^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
