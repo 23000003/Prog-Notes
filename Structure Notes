@@ -19,7 +19,7 @@ ex. in main
 Student s;
 s.id = 1000;
 
-strcpy(s.name.lname, "yu");      <== Needs to strcpy if assigning to other variable with other structures
+strcpy(s.name.lname, "yu");      <== Needs to strcpy if assigning to other variable with other structures (accessing Name name to another struct) s.name(NAME) .lname
 strcpy(s.name.lname, "yu");      <== ^^^^^^^^^^^^^^^^^^^^^^^^
 
 
