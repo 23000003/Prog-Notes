@@ -29,3 +29,34 @@ strcpy(s.name.lname, "yu");      <== ^^^^^^^^^^^^^^^^^^^^^^^^
     int n_people = 0;
     memset(people, 0, sizeof(Person) * 10);      <==== same like calloc, it inializes all into zero 0
 
+
+typedef struct {
+    String fname;
+    String lname;
+} Name, *NameList, NameArray[MAX];
+
+
+    // Example using Name
+    Name person1;
+    strcpy(person1.fname, "John");
+    strcpy(person1.lname, "Doe");
+    printf("Name: %s %s\n", person1.fname, person1.lname);
+
+    // Example using NameList (pointer to Name)
+    Name person2;
+    NameList list = &person2;
+    strcpy(list->fname, "Jane");
+    strcpy(list->lname, "Smith");
+    printf("NameList: %s %s\n", list->fname, list->lname);
+
+    // Example using NameArray (array of Name structures)
+    NameArray people = {
+        {"Alice", "Johnson"},
+        {"Bob", "Smith"},
+        {"Carol", "Jones"}
+    };
+
+    printf("NameArray:\n");
+    for (int i = 0; i < MAX; i++) {
+        printf("%s %s\n", people[i].fname, people[i].lname);
+    }
