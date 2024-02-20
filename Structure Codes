@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define MAX 10
+
+typedef char String[20];
+
+typedef struct{
+    String fname;
+    String lname;
+    String address;
+}Name;
+
+typedef struct{
+    Name name;
+    int age;
+    char sex;
+}Person;
+
+bool addPerson(Person list[], int *count, Name name, int age, char sex, String address){
+    if(*count >= MAX){
+        return false;
+    }
+    list[*count].name = name;
+    list[*count].age = age;
+    list[*count].sex = sex;
+    strcpy(list[*count].name.address, address);
+    (*count)++;
+    return true;
+}
+
+void displayAllPerson(Person list[], int count){
+    for(int i = 0; i < count; i++){
+        printf("%s %s %d %c %s\n",list[i].name.fname, list[i].name.lname,list[i].age, list[i].sex, list[i].name.address);
+    }
+}
+
+int main() {
+    Person list[MAX];
+    int count = 0;
+    
+    addPerson(list,&count,((Name){"Kenny","Maratas","Cebu"}), 15, 'M', "Cebu");
+    addPerson(list,&count,((Name){"Joshua","Garcia","Manila"}), 14, 'F', "Manila");
+    addPerson(list,&count,((Name){"Daniel","Padilla","Cebu"}), 17, 'M', "Cebu");
+
+    displayAllPerson(list, count);
+
+    return 0;
+}
