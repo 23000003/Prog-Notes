@@ -24,3 +24,8 @@ strcpy(s.name.lname, "yu");      <== ^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 
+
+    Person people[10];
+    int n_people = 0;
+    memset(people, 0, sizeof(Person) * 10);      <==== same like calloc, it inializes all into zero 0
+
