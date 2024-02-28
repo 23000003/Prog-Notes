@@ -1,0 +1,121 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 10
+
+typedef char String[100];
+struct student{
+    String name;
+    int id;
+    int age;
+    float grade;
+};
+
+struct List{
+    struct student *studentList;
+    int count;
+};
+
+void disp(){
+    printf("Student Database\n\n");
+    printf("1. Add student\n");
+    printf("2. Delete student\n");
+    printf("3. Search student\n");
+    printf("4. Display all students\n");
+    printf("5. Exit\n");
+}
+
+struct student createStudent(){
+    struct student newStudent;
+    
+    printf("Enter student ID: ");
+    scanf("%d", &newStudent.id);
+    printf("Enter student name: ");
+    scanf("%s", &newStudent.name);
+    printf("Enter student age: ");
+    scanf("%d", &newStudent.age);
+    printf("Enter student grade: ");
+    scanf("%f", &newStudent.grade);
+    printf("\n");
+    
+    return newStudent;
+}
+
+void addStudent(struct List *studentList, struct student newStudent){
+    if (studentList->count<MAX){
+        studentList->studentList[studentList->count++]=newStudent;
+    }
+}
+
+int searchStudentIndex(struct List studentList, int id){
+    for (int i=0;i<studentList.count;++i){
+        if(id==studentList.studentList[i].id){
+            return i;
+        }
+    }
+}
+
+void delStudent(struct List *studentList, int id){
+    if (studentList->count>0){
+        for (int i=searchStudentIndex(*studentList, id);i<studentList->count;++i){
+            studentList->studentList[i]=studentList->studentList[i+1];
+        }
+        --(studentList->count);
+        printf("Student with ID %d deleted successfully\n\n", id);
+    }
+}
+
+void dispStudent(struct student newStudent){
+    printf("%d	%s		%d	%.2f\n", newStudent.id, newStudent.name, newStudent.age, newStudent.grade);
+}
+
+void dispSearch(struct student newStudent){
+    printf("ID: %d, Name: %s, Age: %d, Grade: %.2f\n\n", newStudent.id, newStudent.name, newStudent.age, newStudent.grade);
+}
+
+struct student searchStudent(struct List studentList, int id){
+    int i=0;
+    for (i;i<studentList.count && studentList.studentList[i].id!=id;++i){}
+    return studentList.studentList[i];
+}
+
+
+void main(){
+    struct List studentList;
+    studentList.studentList=malloc(sizeof(struct student)*MAX);
+    studentList.count=0;
+    int choice,id;
+        
+    do {
+        disp();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice){
+            case 1:
+                addStudent(&studentList, createStudent());
+                break;
+            case 2:
+                printf("Enter student ID to delete: ");
+                scanf("%d", &id);
+                delStudent(&studentList, id);
+                break;
+            case 3:
+                printf("Enter student ID to search: ");
+                scanf("%d", &id);
+                dispSearch(searchStudent(studentList, id));
+                break;
+            case 4:
+                printf("ID	Name		Age	Grade\n");
+                for (int i=0;i<studentList.count;++i){
+                    dispStudent(studentList.studentList[i]);
+                }
+                printf("\n");
+                break;
+            case 5:
+                printf("Exiting...");
+                break;
+        }
+        printf("\n");
+    } while (choice!=5);
+    
+}
