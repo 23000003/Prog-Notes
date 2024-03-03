@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node{
+	int data;
+	struct node *next;
+}Node;
+
+
+void inputlist(Node **head, int val){  // Double pointer as u are modifying a pointer
+	Node *curr = malloc(sizeof(Node));      // This allocates memory and creates every block of node in the dynamic memory (heap) when its called      // a temporary node to pass to head node
+	curr->next = NULL;                     // Identifies the last index 
+	curr->data = val;                      // set the data to the value u are passing
+	
+	if(*head == NULL){        // checks if head is empty
+		*head = curr;        // points to curr and head will have the same node and data as u were passing
+		return;
+	}
+	 
+	Node *transfer = *head;           // after head is not null, we create a temporary node to pass the curr node to the next node of head
+	
+	while(transfer->next != NULL){      // if the next node is not null
+		transfer = transfer->next;      // we change our current node to the next node (next) until the next node is null 
+	}                                    ^^^^^^
+	transfer->next = curr;           // which we assign the current node that is empty to temporary node which is curr  
+	
+}
+
+void printlinklist(Node *head){
+	
+	while(head != NULL){
+		printf("%d ",head->data);
+		head = head->next;             // change current node to next node until its null
+	}
+}
+
+int main(){
+	
+	Node *head = NULL;
+	
+	inputlist(&head, 1); (1st node)
+	inputlist(&head, 3); (2nd node)
+	inputlist(&head, 5); (3rd node)
+	inputlist(&head, 7); (4th node)
+	
+	printlinklist(head);
+}
