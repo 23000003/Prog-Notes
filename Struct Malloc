@@ -141,7 +141,7 @@ int main() {
     Hero hero1;
 
 
-    hero1.health = (int*)malloc(sizeof(int));
+    hero1.health = (int*)malloc(8 * sizeof(int));
 
     printf("Enter health: ");
     scanf("%d", &hero1.health[0]);
