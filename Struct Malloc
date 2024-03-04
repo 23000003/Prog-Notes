@@ -119,3 +119,47 @@ void main(){
     } while (choice!=5);
     
 }
+
+
+// -------------------------------------///
+
+
+#include <stdio.h>
+#include <stdlib.h> 
+
+typedef char String[10];
+
+typedef struct {
+    String coolName;
+    int *health;
+    int defense;
+} Hero;
+
+void damage(Hero *hero1, int i);
+
+int main() {
+    Hero hero1;
+
+
+    hero1.health = (int*)malloc(sizeof(int));
+
+    printf("Enter health: ");
+    scanf("%d", &hero1.health[0]);
+
+    printf("%d\n", *(hero1.health + 0));
+    damage(&hero1, 1);
+    
+    printf("%d\n", *(hero1.health + 1));
+
+    *(hero1.health + 2) = 50;
+    
+    printf("%d\n", *(hero1.health + 2));
+    
+    printf("%d\n",sizeof(hero1.health));
+    free(hero1.health);
+    return 0;
+}
+
+void damage(Hero *hero1, int i) {
+    *(hero1->health + i) = 10;
+}
