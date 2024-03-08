@@ -1,0 +1,139 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAX 10
+
+typedef struct{
+    char fName[50];
+    char lName[50];
+    char middleInitial;
+}name;
+
+
+typedef struct{
+    name studentName;
+    int idNum;
+    int studentGrades[3];
+}studentDetail;
+
+
+typedef struct{
+    studentDetail student[MAX];
+    int count;
+}classRecord;
+
+
+typedef struct{
+    classRecord classList;
+    classRecord examRetake[3];
+}classResults;
+
+
+void populate(classRecord *, int);
+studentDetail addStudent(char *fName, char *lName, char mi, int idNum, int grades[]);
+void checkExams(classResults *results);
+
+int main(){
+    int i = 0;
+    int classCount;
+    classResults results;
+    results.classList.count = 0;
+
+    results.examRetake[0].count = 0;
+    results.examRetake[1].count = 0;
+    results.examRetake[2].count = 0;
+
+    printf("Input Number of Students in Class: ");
+    scanf("%d",&classCount);
+
+    if(classCount > MAX){
+        printf("Maximum Number of Students per Class is only 10");
+        return 0;
+    }
+    /*FUNCTION CALL TO POPULATE THE ARRAY*/
+    populate(&results.classList, classCount);
+
+    /*FUNCTION CALL TO CHECK WHO NEEDS TO RETAKE WHICH EXAMS*/
+    checkExams(&results);
+
+    /*DISPLAY*/
+    for(int i = 0; i < 3; i++){
+        printf("Retakers Needed for Exam %d: ",i+1);
+        if(results.examRetake[i].count != 0){
+            if(results.examRetake[i].count == classCount){
+                printf("All Students Have to Retake Exam %d",i+1);
+            }else{
+                 for(int j = 0; j < results.examRetake[i].count; j++){
+                    printf("%s ",results.examRetake[i].student[j].studentName.fName);
+                }   
+            }
+        }else{
+            printf("No Retakers for Exam %d",i+1);
+            }
+        printf("\n\n");
+    }
+
+    return 0;
+}
+void checkExams(classResults *results){
+    for(int j = 0; j < 3; j++){
+        results->examRetake[j].count = 0;
+        for(int i = 0; i < results->classList.count; i++){
+            if(results->classList.student[i].studentGrades[j] < 60){
+                results->examRetake[j].student[results->examRetake[j].count] = results->classList.student[i];
+                results->examRetake[j].count++;
+            }
+        }
+    }
+}
+
+
+void populate(classRecord *record, int classCount){
+    int i = 0;
+    int x = 0;
+    char fName[50];
+    char lName[50];
+    char MI;
+    int idNum;
+    int grades[3];
+
+    for(int i = 0; i < classCount; i++){
+        printf("===STUDENT %d===\n\n",i+1);
+
+        //CONTINUE COE TO POPULATE STUDENTS HERE
+        printf("Input First Name: ");
+        scanf("%s",fName);
+        printf("Input Last Name: ");
+        scanf("%s",lName);
+        printf("Input Middle Initial: ");
+        scanf(" %c",&MI);
+        printf("Input ID Number: ");
+        scanf("%d",&idNum);
+        for(int i =0; i < 3; i++){
+            printf("Input Exam score %d:",i+1);
+            scanf("%d",&grades[i]);
+        }
+        record->student[i] = addStudent(fName,lName,MI,idNum,grades);
+        record->count++;
+    }
+    
+}
+
+
+studentDetail addStudent(char *fName, char *lName, char mi, int idNum, int grades[]){
+    int i = 0;
+
+    studentDetail details;
+
+    details.studentName.middleInitial = mi;
+    strcpy(details.studentName.fName, fName);
+    strcpy(details.studentName.lName, lName);
+
+    details.idNum = idNum;
+
+    for(i = 0; i < 3; i++){
+        details.studentGrades[i] = grades[i];
+    }
+
+    return details;
+}
