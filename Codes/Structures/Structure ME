@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_PRODUCTS 20
+
+// to do structure for Product
+typedef struct{
+    int productID;
+    char productName[50];
+    int productQty;
+    float productPrice;
+}Product;
+
+// to do structure for ProductList
+typedef struct{
+    Product products[MAX_PRODUCTS];
+    int count;
+}ProductList;
+
+Product newProduct(int id, char *name, int qty, float price);
+ProductList newProductList();
+void addProduct(ProductList *list, Product p);
+void displayProductsLessThan(ProductList list, float amount);
+
+int main(){
+    ProductList storeDisplay = newProductList();
+
+    addProduct(&storeDisplay, newProduct(1, "Converse Chuck", 0, 5000));
+    addProduct(&storeDisplay, newProduct(2, "Nyke Water Force 1s", 0, 6000));
+    addProduct(&storeDisplay, newProduct(3, "AirPods", 0, 9500));
+    addProduct(&storeDisplay, newProduct(4, "Marshmallows", 0, 150));
+    addProduct(&storeDisplay, newProduct(5, "Netflix Giftcard", 0, 500));
+    addProduct(&storeDisplay, newProduct(6, "Speakers", 0, 2000));
+    addProduct(&storeDisplay, newProduct(7, "Alarm Clock", 0, 1500));
+    addProduct(&storeDisplay, newProduct(8, "Backpack", 0, 1000));
+    addProduct(&storeDisplay, newProduct(9, "Smart Watch", 0, 7000));
+    addProduct(&storeDisplay, newProduct(10, "Self-Help Book", 0, 300));
+    // add the rest of the addProduct()
+    
+    //make a call of the display product with 2000 as the amount value
+    displayProductsLessThan(storeDisplay, 2000);
+    
+    
+    
+    return 0;
+
+}
+
+Product newProduct(int id, char *name, int qty, float price){
+    Product p;
+
+    p.productID = id;
+    strcpy(p.productName, name);
+    p.productQty = qty;
+    p.productPrice = price;
+
+    return p;
+}
+
+ProductList newProductList(){
+    ProductList list;
+
+    list.count = 0;
+
+    return list;
+}
+
+void addProduct(ProductList *list, Product p){
+    if(list->count < MAX_PRODUCTS){
+        list->products[(list->count)++] = p;
+    }    
+}
+
+void displayProductsLessThan(ProductList list, float amount){
+    // to do code logic for display
+    for(int i = 0; i < list.count; i++){
+        if(list.products[i].productPrice < amount){
+            printf("%d - %s - Php %.2f\n",i+1,list.products[i].productName, list.products[i].productPrice);
+        }
+    }
+}
