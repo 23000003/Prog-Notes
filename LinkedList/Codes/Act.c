@@ -25,10 +25,9 @@ void removeoccurence(Node **head, int occu){
     while(*temp != NULL){
         if((*temp)->val == occu){
             Node *del = *temp;
-            *temp = del->next;
+            *temp = del->next; //can be *temp = (*temp)->next
             free(del);
-        }
-        if(*temp != NULL){
+        }else{
             temp = &(*temp)->next;
         }
     }
@@ -38,10 +37,8 @@ Node *removefactor(Node *head, int factor){
     Node *occu = NULL, *fact = NULL;
     while(head != NULL){
         if(head->val % factor == 0){
-            Node *temp = malloc(sizeof(Node));
-            temp->val = head->val;
-            temp->next = NULL;
-            
+            Node *temp = NULL;
+            insertFront(&temp, head->val);       
             if(fact == NULL){
                 fact = temp;
                 occu = fact;
@@ -61,11 +58,10 @@ void deletenonfactors(Node **head, int fact){
     while(*trav != NULL){
         if((*trav)->val % fact == 0){
             Node *del = *trav;
-            *trav = del->next;
+            *trav = del->next; //can be *trav = (*trav)->next
             free(del);
-        }
-        if(*trav != NULL){
-            trav = &(*trav)->next;   
+        }else{
+            trav = &(*trav)->next; 
         }
     }
 }
