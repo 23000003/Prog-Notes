@@ -45,12 +45,22 @@ including the new item to store, does not exceed the weight limit. */
 
 void depositItem(Locker* L, char studID[], ItemDets newItem)
 {
-	ItemList temp = malloc(sizeof(ItemNode));
-	temp->item = newItem;
-	temp->nextItem = L->IL;
-	L->IL = temp;
-	strcpy(L->owner.studID, studID);
-	L->totWeight += newItem.weight;
+	if(strcmp(L->owner.studID, studID) == 0){
+		if(newItem.weight < WEIGHTLIMIT){
+			ItemList temp = malloc(sizeof(ItemNode));
+			temp->item = newItem;
+			temp->nextItem = NULL;
+			
+			ItemNode **trav;
+			for(trav = &L->IL; *trav != NULL && (*trav)->item.weight < temp->item.weight; trav = &(*trav)->nextItem){}
+			temp->nextItem = *trav;
+			*trav = temp;	
+		}else{
+			printf("Weight Exceeded\n\n");
+		}
+	}else{
+		printf("Stud ID is not the same");
+	}
 	
 }
 
@@ -97,10 +107,12 @@ int main(void)
 	ItemDets item2 = {"Shoes", 0.87};
 	ItemDets item3 = {"Laptop", 2.35};
 	ItemDets item4 = {"Keyboard", 1.17};
+	ItemDets item5 = {"Keybd", 5.17};
 	
 	Locker myLocker = {{"14101941", "Cris Militante", "BSCS"}, NULL, 1, 0};
 	ItemList heavyItems = NULL;
 	
+	depositItem(&myLocker, "14101941", item5);
 	depositItem(&myLocker, "14101941", item4);
 	depositItem(&myLocker, "14101941", item2);
 	depositItem(&myLocker, "14101941", item3);
