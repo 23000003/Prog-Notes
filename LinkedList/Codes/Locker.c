@@ -75,13 +75,10 @@ ItemList getHeavyItems(Locker* L, float limit)
 	ItemNode **trav = &L->IL; 
 	while(*trav != NULL){
 		if((*trav)->item.weight > limit){
-			ItemList temp = malloc(sizeof(ItemNode));
-			temp->nextItem = ret;
-			temp->item = (*trav)->item;
-			ret = temp;
-			
-			
+			ItemList temp = *trav;
 			*trav = (*trav)->nextItem;
+			temp->nextItem = ret;
+			ret = temp;
 		}else{
 			trav = &(*trav)->nextItem;
 		}
